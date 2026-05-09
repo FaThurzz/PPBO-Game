@@ -1,3 +1,5 @@
+import main.java.com.Games.Items.Item;
+
 import java.util.List;
 
 public class Player {
@@ -7,6 +9,6 @@ public class Player {
     int exp;
     int money;
     List<Skills> skills;
-    List<Items> inventory;
+    List<Item> inventory;
     int x,y;
 }

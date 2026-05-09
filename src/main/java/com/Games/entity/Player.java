@@ -3,6 +3,8 @@ package main.java.com.Games.entity;
 import main.java.com.Games.engine.GamePanel;
 import main.java.com.Games.engine.KeyHandler;
 import main.java.com.Games.world.TileMap;
+import main.java.com.Games.world.TilePos;
+
 import java.awt.*;
 
 public class Player extends Entity {
@@ -131,5 +133,18 @@ public class Player extends Entity {
             g.setFont(new Font("Courier New", Font.PLAIN, 9));
             g.drawString(direction + " " + animFrame, screenX, screenY - 6);
         }
+    }
+    public TilePos getFacingTile() {
+        int ts   = GamePanel.TILE_SIZE * GamePanel.SCALE;
+        int col  = (x + width  / 2) / ts;
+        int row  = (y + height / 2) / ts;
+
+        return switch (direction) {
+            case "up"    -> new TilePos(col, row - 1);
+            case "down"  -> new TilePos(col, row + 1);
+            case "left"  -> new TilePos(col - 1, row);
+            case "right" -> new TilePos(col + 1, row);
+            default      -> new TilePos(col, row);
+        };
     }
 }
