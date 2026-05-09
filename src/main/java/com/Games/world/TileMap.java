@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class TileMap {
     private Tile[][] tiles;
+    private FarmTile[][] farmData;
     public int rows, cols;
 
     // Map sederhana hardcoded dulu (nanti bisa load dari file .txt)
@@ -37,9 +38,13 @@ public class TileMap {
         rows = DEFAULT_MAP.length;
         cols = DEFAULT_MAP[0].length;
         tiles = new Tile[rows][cols];
-        for (int r = 0; r < rows; r++)
-            for (int c = 0; c < cols; c++)
+        farmData = new FarmTile[rows][cols];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
                 tiles[r][c] = new Tile(TYPE_MAP[DEFAULT_MAP[r][c]], null);
+                farmData[r][c] = new FarmTile();
+            }
+        }
     }
 
     public Tile getTileAt(int col, int row) {
@@ -64,5 +69,10 @@ public class TileMap {
                 tiles[r][c].render(g, screenX, screenY, tileSize);
             }
         }
+    }
+    public FarmTile getFarmTile(TilePos pos) {
+        if (pos.row < 0 || pos.row >= rows) return null;
+        if (pos.col < 0 || pos.col >= cols) return null;
+        return farmData[pos.row][pos.col];
     }
 }
