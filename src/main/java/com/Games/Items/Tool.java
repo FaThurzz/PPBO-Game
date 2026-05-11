@@ -83,4 +83,28 @@ public class Tool extends Item{
             }
         }
     }
+    // ── Factory method ───────────────────────────────────────
+    public static Tool basicHoe() {
+        return new Tool("Basic Hoe", ToolType.HOE, 2, 1);
+    }
+
+    public static Tool basicWateringCan() {
+        return new Tool("Watering Can", ToolType.WATERING_CAN, 2, 1);
+    }
+
+    public static Tool basicScythe() {
+        return new Tool("Scythe", ToolType.SCYTHE, 1, 1);
+    }
+
+    public static Tool basicAxe() {
+        return new Tool("Basic Axe", ToolType.AXE, 4, 1);
+    }
+
+    public static Tool basicPickaxe() {
+        return new Tool("Basic Pickaxe", ToolType.PICKAXE, 4, 1);
+    }
+
+    public static Tool basicSword() {
+        return new Tool("Basic Sword", ToolType.SWORD, 4, 1);
+    }
 }

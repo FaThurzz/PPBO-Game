@@ -1,5 +1,7 @@
 package main.java.com.Games.engine;
 
+import main.java.com.Games.Items.InventoryRenderer;
+import main.java.com.Games.Items.Inventory;
 import main.java.com.Games.entity.Player;
 import main.java.com.Games.world.Camera;
 import main.java.com.Games.world.TileMap;
@@ -119,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable {
         g2.setFont(new Font("Courier New", Font.PLAIN, 9));
         g2.drawString("FPS: " + fps, SCREEN_WIDTH - 55, 14);
 
+        InventoryRenderer.renderHotbar(g2, player.inventory);
         g2.dispose();
     }
 }

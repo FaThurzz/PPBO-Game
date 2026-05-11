@@ -49,4 +49,16 @@ public class Seed extends Item {
         quantity--;
         System.out.println("Berhasil menanam " + cropType + "!");
     }
+    // ── Factory method ───────────────────────────────────────
+    public static Seed parsnip() {
+        return new Seed("Parsnip Seeds", "Parsnip", 4, Season.SPRING, 10, 20);
+    }
+
+    public static Seed melon() {
+        return new Seed("Melon Seeds", "Melon", 12, Season.SUMMER, 80, 200);
+    }
+
+    public static Seed pumpkin() {
+        return new Seed("Pumpkin Seeds", "Pumpkin", 13, Season.FALL, 100, 200);
+    }
 }

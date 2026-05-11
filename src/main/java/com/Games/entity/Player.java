@@ -1,5 +1,9 @@
 package main.java.com.Games.entity;
 
+import main.java.com.Games.Items.Inventory;
+import main.java.com.Games.Items.Item;
+import main.java.com.Games.Items.Seed;
+import main.java.com.Games.Items.Tool;
 import main.java.com.Games.engine.GamePanel;
 import main.java.com.Games.engine.KeyHandler;
 import main.java.com.Games.world.TileMap;
@@ -13,6 +17,7 @@ public class Player extends Entity {
     public int hp, maxHp;
     public int stamina, maxStamina;
     public int level, exp, money;
+    public Inventory inventory = new Inventory();
 
     // Input
     private final KeyHandler key;
@@ -41,6 +46,11 @@ public class Player extends Entity {
         this.stamina    = 100; this.maxStamina = 100;
         this.level      = 1;   this.exp        = 0;
         this.money      = 500;
+
+        inventory.addItem(Tool.basicHoe());
+        inventory.addItem(Tool.basicWateringCan());
+        inventory.addItem(Tool.basicScythe());
+        inventory.addItem(Seed.parsnip());
     }
 
     @Override
@@ -64,13 +74,38 @@ public class Player extends Entity {
         } else {
             animFrame = 0;
         }
+
+        key.update();
+        // Scroll slot dengan Q/E atau angka 1-9
+        if (key.slot1) inventory.setActiveIndex(0);
+        if (key.slot2) inventory.setActiveIndex(1);
+        if (key.slot3) inventory.setActiveIndex(2);
+        if (key.slot4) inventory.setActiveIndex(3);
+        if (key.slot5) inventory.setActiveIndex(4);
+        if (key.slot6) inventory.setActiveIndex(5);
+        if (key.slot7) inventory.setActiveIndex(6);
+        if (key.slot8) inventory.setActiveIndex(7);
+        if (key.slot9) inventory.setActiveIndex(8);
+
+        // Gunakan item aktif
+        if (key.actionJustPressed) {
+            Item active = inventory.getActiveItem();
+            if (active != null && active.isUsable()) {
+                active.use(this, tileMap);
+            }
+        }
     }
 
     private void move(int dx, int dy) {
         int tileSize = GamePanel.TILE_SIZE * GamePanel.SCALE;
+        int mapW = tileMap.cols * tileSize;
+        int mapH = tileMap.rows * tileSize;
 
-        // Cek collision horizontal
+        // Cek collision horizontal + batas map
         int newX = x + dx;
+        if (newX < 0) newX = 0;                      // ← batas kiri
+        if (newX + width > mapW) newX = mapW - width; // ← batas kanan
+
         int col  = (newX + (dx > 0 ? width : 0)) / tileSize;
         int row1 = y / tileSize;
         int row2 = (y + height - 1) / tileSize;
@@ -78,12 +113,15 @@ public class Player extends Entity {
             x = newX;
         }
 
-        // Cek collision vertikal
+        // Cek collision vertikal + batas map
         int newY = y + dy;
+        if (newY < 0) newY = 0;                        // ← batas atas
+        if (newY + height > mapH) newY = mapH - height; // ← batas bawah
+
         int col1 = x / tileSize;
         int col2 = (x + width - 1) / tileSize;
-        row1 = (newY + (dy > 0 ? height : 0)) / tileSize;
-        if (tileMap.isPassable(col1, row1) && tileMap.isPassable(col2, row1)) {
+        int row1v = (newY + (dy > 0 ? height : 0)) / tileSize;
+        if (tileMap.isPassable(col1, row1v) && tileMap.isPassable(col2, row1v)) {
             y = newY;
         }
     }

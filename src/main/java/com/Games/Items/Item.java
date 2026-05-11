@@ -3,6 +3,8 @@ package main.java.com.Games.Items;
 import main.java.com.Games.entity.Player;
 import main.java.com.Games.world.TileMap;
 
+import java.awt.image.BufferedImage;
+
 public abstract class Item {
     protected String name;
     protected String description;
@@ -11,6 +13,7 @@ public abstract class Item {
     protected int maxStack;
     protected int sellPrice;
     protected int buyPrice;
+    protected BufferedImage icon;
 
     public Item(String name, String description, ItemType type, int maxStack, int sellPrice, int buyPrice) {
         this.name        = name;
@@ -47,4 +50,5 @@ public abstract class Item {
     public int getBuyPrice()  { return buyPrice; }
 
     public void setQuantity(int q) { this.quantity = Math.max(0, q); }
+    public BufferedImage getIcon() { return icon; }
 }
